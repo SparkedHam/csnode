@@ -1,7 +1,8 @@
-function updateTimeAndLatency() {
+function updateTimeAndLatencyAndNode() {
     const startTime = Date.now();
     const timeElement = document.getElementById('time');
     const latencyElement = document.getElementById('latency');
+    const nodeNameElement = document.getElementById('node-name');
 
     timeElement.textContent = new Date().toLocaleTimeString();
 
@@ -11,7 +12,13 @@ function updateTimeAndLatency() {
             const latencyTime = Date.now() - startTime;
             latencyElement.textContent = `Latency: ${latencyTime} ms`;
         });
+
+    fetch('/node-name')
+        .then(response => response.text())
+        .then(nodeName => {
+            nodeNameElement.textContent = `Node: ${nodeName}`;
+        });
 }
 
-setInterval(updateTimeAndLatency, 1000);
-updateTimeAndLatency();
+setInterval(updateTimeAndLatencyAndNode, 1000);
+updateTimeAndLatencyAndNode();
